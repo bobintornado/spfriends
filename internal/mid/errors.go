@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"runtime/debug"
 
-	"github.com/ardanlabs/service/internal/platform/web"
+	"github.com/bobintornado/spfriends/internal/platform/web"
 	"github.com/pkg/errors"
 	"go.opencensus.io/trace"
 )
@@ -44,15 +44,6 @@ func ErrorHandler(next web.Handler) web.Handler {
 
 			// Indicate this request had an error.
 			v.Error = true
-
-			// What is the root error.
-			err = errors.Cause(err)
-
-			if err != web.ErrNotFound {
-
-				// Log the error.
-				log.Printf("%s : ERROR : %v\n", v.TraceID, err)
-			}
 
 			// Respond with the error.
 			web.Error(ctx, w, err)

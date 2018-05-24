@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ardanlabs/service/internal/platform/web"
+	"github.com/bobintornado/spfriends/internal/platform/web"
 	"go.opencensus.io/trace"
 )
 
