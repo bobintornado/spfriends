@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ardanlabs/service/internal/platform/trace"
+	"github.com/bobintornado/spfriends/internal/platform/trace"
 	"github.com/dimfeld/httptreemux"
 )
 

@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/ardanlabs/service/internal/platform/cfg"
+	"github.com/bobintornado/spfriends/internal/platform/cfg"
 )
 
 // ExampleInit shows how to use the package level funcs of the config

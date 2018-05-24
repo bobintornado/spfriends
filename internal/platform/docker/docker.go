@@ -14,9 +14,9 @@ type Container struct {
 	Port string
 }
 
-// StartMongo runs a mongo container to execute commands.
-func StartMongo() (*Container, error) {
-	cmd := exec.Command("docker", "run", "-P", "-d", "mongo")
+// StartNeo4j runs a mongo container to execute commands.
+func StartNeo4j() (*Container, error) {
+	cmd := exec.Command("docker", "run", "--publish=7687:7687", "-d", "--env=NEO4J_AUTH=none", "neo4j")
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	if err := cmd.Run(); err != nil {
@@ -36,9 +36,9 @@ func StartMongo() (*Container, error) {
 	var doc []struct {
 		NetworkSettings struct {
 			Ports struct {
-				TCP27017 []struct {
+				TCP7687 []struct {
 					HostPort string `json:"HostPort"`
-				} `json:"27017/tcp"`
+				} `json:"7687/tcp"`
 			} `json:"Ports"`
 		} `json:"NetworkSettings"`
 	}
@@ -48,7 +48,7 @@ func StartMongo() (*Container, error) {
 
 	c := Container{
 		ID:   id,
-		Port: doc[0].NetworkSettings.Ports.TCP27017[0].HostPort,
+		Port: doc[0].NetworkSettings.Ports.TCP7687[0].HostPort,
 	}
 
 	log.Println("DB Port:", c.Port)
@@ -56,8 +56,8 @@ func StartMongo() (*Container, error) {
 	return &c, nil
 }
 
-// StopMongo stops and removes the specified container.
-func StopMongo(c *Container) error {
+// StopNeo4j stops and removes the specified container.
+func StopNeo4j(c *Container) error {
 	if err := exec.Command("docker", "stop", c.ID).Run(); err != nil {
 		return err
 	}

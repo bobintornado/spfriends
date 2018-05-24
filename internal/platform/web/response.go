@@ -13,12 +13,6 @@ var (
 	// ErrNotHealthy occurs when the service is having problems.
 	ErrNotHealthy = errors.New("Not healthy")
 
-	// ErrNotFound is abstracting the mgo not found error.
-	ErrNotFound = errors.New("Entity not found")
-
-	// ErrInvalidID occurs when an ID is not in a valid form.
-	ErrInvalidID = errors.New("ID is not in its proper form")
-
 	// ErrValidation occurs when there are validation errors.
 	ErrValidation = errors.New("Validation errors occurred")
 )
@@ -36,11 +30,7 @@ func Error(cxt context.Context, w http.ResponseWriter, err error) {
 		RespondError(cxt, w, err, http.StatusInternalServerError)
 		return
 
-	case ErrNotFound:
-		RespondError(cxt, w, err, http.StatusNotFound)
-		return
-
-	case ErrValidation, ErrInvalidID:
+	case ErrValidation:
 		RespondError(cxt, w, err, http.StatusBadRequest)
 		return
 	}

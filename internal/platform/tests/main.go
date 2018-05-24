@@ -4,13 +4,15 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os/exec"
 	"runtime/debug"
+	"strings"
 	"testing"
 	"time"
 
-	"github.com/ardanlabs/service/internal/platform/db"
-	"github.com/ardanlabs/service/internal/platform/docker"
-	"github.com/ardanlabs/service/internal/platform/web"
+	"github.com/bobintornado/spfriends/internal/platform/db"
+	"github.com/bobintornado/spfriends/internal/platform/docker"
+	"github.com/bobintornado/spfriends/internal/platform/web"
 	"github.com/pborman/uuid"
 )
 
@@ -35,25 +37,30 @@ func New() *Test {
 	var test Test
 
 	// ============================================================
-	// Startup Mongo container
+	// Startup Neo4j container
 
 	var err error
-	test.container, err = docker.StartMongo()
+	test.container, err = docker.StartNeo4j()
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	// ============================================================
 	// Configuration
+	bytes, err := exec.Command("docker-machine", "ip").Output()
+	dockerHost := strings.TrimSpace(string(bytes))
+	if err != nil {
+		// if docker-machine is not avaiable, then probably localhost is docker host
+		dockerHost = "localhost"
+	}
 
-	dbDialTimeout := 25 * time.Second
-	dbHost := fmt.Sprintf("mongodb://localhost:%s/gotraining", test.container.Port)
+	dbHost := fmt.Sprintf("bolt://%s:%s", dockerHost, test.container.Port)
 
 	// ============================================================
 	// Start Mongo
 
-	log.Println("main : Started : Initialize Mongo")
-	test.MasterDB, err = db.New(dbHost, dbDialTimeout)
+	log.Println("main : Started : Initialize Neo4j")
+	test.MasterDB, err = db.New(dbHost, 25)
 	if err != nil {
 		log.Fatalf("startup : Register DB : %v", err)
 	}
@@ -65,7 +72,7 @@ func New() *Test {
 // done in a defer immediately after calling New.
 func (t *Test) TearDown() {
 	t.MasterDB.Close()
-	if err := docker.StopMongo(t.container); err != nil {
+	if err := docker.StopNeo4j(t.container); err != nil {
 		log.Println(err)
 	}
 }

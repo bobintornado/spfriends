@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ardanlabs/service/internal/platform/cfg"
+	"github.com/bobintornado/spfriends/internal/platform/cfg"
 )
 
 // Success and failure markers.
