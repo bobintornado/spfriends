@@ -10,8 +10,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ardanlabs/service/cmd/sidecar/tracer/handlers"
-	"github.com/ardanlabs/service/internal/platform/cfg"
+	"github.com/bobintornado/spfriends/cmd/sidecar/tracer/handlers"
+	"github.com/bobintornado/spfriends/internal/platform/cfg"
 )
 
 func init() {

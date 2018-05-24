@@ -9,10 +9,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ardanlabs/service/cmd/sidecar/metrics/collector"
-	"github.com/ardanlabs/service/cmd/sidecar/metrics/publisher"
-	"github.com/ardanlabs/service/cmd/sidecar/metrics/publisher/expvar"
-	"github.com/ardanlabs/service/internal/platform/cfg"
+	"github.com/bobintornado/spfriends/cmd/sidecar/metrics/collector"
+	"github.com/bobintornado/spfriends/cmd/sidecar/metrics/publisher"
+	"github.com/bobintornado/spfriends/cmd/sidecar/metrics/publisher/expvar"
+	"github.com/bobintornado/spfriends/internal/platform/cfg"
 )
 
 func init() {
@@ -46,9 +46,9 @@ func main() {
 	if err != nil {
 		debugHost = "0.0.0.0:4001"
 	}
-	crudHost, err := c.String("CRUD_HOST")
+	friendsHost, err := c.String("FRIENDS_HOST")
 	if err != nil {
-		crudHost = "http://crud:4000/debug/vars"
+		friendsHost = "http://friends:4000/debug/vars"
 	}
 	publishTo, err := c.String("PUBLISHER")
 	if err != nil {
@@ -68,7 +68,7 @@ func main() {
 	log.Printf("config : %s=%v", "DEBUG_HOST", debugHost)
 	log.Printf("config : %s=%v", "EXPVAR_HOST", expHost)
 	log.Printf("config : %s=%v", "EXPVAR_ROUTE", expRoute)
-	log.Printf("config : %s=%v", "CRUD_HOST", crudHost)
+	log.Printf("config : %s=%v", "FRIENDS_HOST", friendsHost)
 	log.Printf("config : %s=%v", "PUBLISHER", publishTo)
 	log.Printf("config : %s=%v", "INTERVAL", interval)
 	log.Printf("config : %s=%v", "SHUTDOWN_TIMEOUT", shutdownTimeout)
@@ -103,7 +103,7 @@ func main() {
 	// Start collectors and publishers
 
 	// Initalize to allow for the collection of metrics.
-	collector, err := collector.New(crudHost)
+	collector, err := collector.New(friendsHost)
 	if err != nil {
 		log.Fatalf("main : Starting collector : %v", err)
 	}

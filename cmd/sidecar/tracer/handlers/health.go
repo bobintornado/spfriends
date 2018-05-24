@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/ardanlabs/service/internal/platform/web"
+	"github.com/bobintornado/spfriends/internal/platform/web"
 )
 
 // Health provides support for orchestration health checks.

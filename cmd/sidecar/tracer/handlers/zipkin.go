@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ardanlabs/service/internal/platform/web"
+	"github.com/bobintornado/spfriends/internal/platform/web"
 	"github.com/openzipkin/zipkin-go/model"
 	"go.opencensus.io/trace"
 )
@@ -71,7 +71,7 @@ func (z *Zipkin) Publish(ctx context.Context, w http.ResponseWriter, r *http.Req
 
 // send uses HTTP to send the data to the tracing sidecare for processing.
 func (z *Zipkin) send(sendBatch []trace.SpanData) error {
-	le, err := newEndpoint("crud", z.localHost)
+	le, err := newEndpoint("friends", z.localHost)
 	if err != nil {
 		return err
 	}

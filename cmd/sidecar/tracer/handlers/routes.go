@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ardanlabs/service/internal/mid"
-	"github.com/ardanlabs/service/internal/platform/web"
+	"github.com/bobintornado/spfriends/internal/mid"
+	"github.com/bobintornado/spfriends/internal/platform/web"
 )
 
 // API returns a handler for a set of routes.
