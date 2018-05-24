@@ -1,5 +1,5 @@
 # $ cd $GOPATH/src/github.com/bobintornado/spfriends
-# $ docker build -t metrics-amd64 -f dockerfile.metrics .
+# $ docker build -t friends-amd64 -f dockerfile.friends .
 
 # Stage 0
 #
@@ -9,7 +9,7 @@ FROM golang
 ENV CGO_ENABLED 0
 RUN mkdir -p /go/src/github.com/bobintornado/spfriends
 ADD . /go/src/github.com/bobintornado/spfriends
-WORKDIR /go/src/github.com/bobintornado/spfriends/cmd/sidecar/metrics
+WORKDIR /go/src/github.com/bobintornado/spfriends/cmd/friends
 RUN go build -ldflags "-s -w -X main.build=$(git rev-parse HEAD)" -a -tags netgo
 
 # Stage 1
@@ -18,7 +18,7 @@ RUN go build -ldflags "-s -w -X main.build=$(git rev-parse HEAD)" -a -tags netgo
 #
 FROM alpine:3.7
 MAINTAINER William Kennedy <bill@ardanlabs.com>
-EXPOSE 3001
-EXPOSE 4001
-COPY --from=0 /go/src/github.com/bobintornado/spfriends/cmd/sidecar/metrics/metrics /bin/
-ENTRYPOINT ["/bin/metrics"]
+EXPOSE 3000
+EXPOSE 4000
+COPY --from=0 /go/src/github.com/bobintornado/spfriends/cmd/friends/friends /bin/
+ENTRYPOINT ["/bin/friends"]

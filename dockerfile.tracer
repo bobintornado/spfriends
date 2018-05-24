@@ -1,4 +1,4 @@
-# $ cd $GOPATH/src/github.com/ardanlabs/service
+# $ cd $GOPATH/src/github.com/bobintornado/spfriends
 # $ docker build -t tracer-amd64 -f dockerfile.tracer .
 
 # Stage 0
@@ -7,9 +7,9 @@
 #
 FROM golang
 ENV CGO_ENABLED 0
-RUN mkdir -p /go/src/github.com/ardanlabs/service
-ADD . /go/src/github.com/ardanlabs/service
-WORKDIR /go/src/github.com/ardanlabs/service/cmd/sidecar/tracer
+RUN mkdir -p /go/src/github.com/bobintornado/spfriends
+ADD . /go/src/github.com/bobintornado/spfriends
+WORKDIR /go/src/github.com/bobintornado/spfriends/cmd/sidecar/tracer
 RUN go build -ldflags "-s -w -X main.build=$(git rev-parse HEAD)" -a -tags netgo
 
 # Stage 1
@@ -20,5 +20,5 @@ FROM alpine:3.7
 MAINTAINER William Kennedy <bill@ardanlabs.com>
 EXPOSE 3002
 EXPOSE 4002
-COPY --from=0 /go/src/github.com/ardanlabs/service/cmd/sidecar/tracer/tracer /bin/
+COPY --from=0 /go/src/github.com/bobintornado/spfriends/cmd/sidecar/tracer/tracer /bin/
 ENTRYPOINT ["/bin/tracer"]
